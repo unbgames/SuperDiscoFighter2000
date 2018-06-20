@@ -41,3 +41,8 @@ bool BeatManager::IsBeat()
     return isBeat;
 }
 
+float BeatManager::GetNextOffset()
+{
+    return beatOffset;
+}
+

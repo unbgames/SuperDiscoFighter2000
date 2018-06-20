@@ -21,6 +21,7 @@ class BeatManager
         void Update(float dt);
         bool IsBeat();
         void SetBeatOffset(float beatOffset);
+        float GetNextOffset();
 };
 
 #endif

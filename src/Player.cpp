@@ -46,7 +46,7 @@ void Player::Update(float dt)
 
         if(InputManager::GetInstance().KeyPress(SDLK_UP))
         {
-            if(Game::GetInstance().GetHeight()/3 < associated.box.y)
+            if(Game::GetInstance().GetHeight()/6 < associated.box.y)
             {
                 associated.box.y -= 45;
                 associated.box.x += 60;
@@ -54,7 +54,7 @@ void Player::Update(float dt)
         }
         if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
         {
-            if(Game::GetInstance().GetHeight() - 220 > associated.box.y)
+            if(Game::GetInstance().GetHeight() - 350 > associated.box.y)
             {
                 associated.box.y += 45;
                 associated.box.x -= 60;

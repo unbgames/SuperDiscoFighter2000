@@ -12,6 +12,7 @@
 #include "TitleScene.hpp"
 #include "Game.hpp"
 #include "Player.hpp"
+#include "HUD.hpp"
 
 StageScene::StageScene()
 {
@@ -23,8 +24,13 @@ StageScene::StageScene()
         
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/background.png"));
-	bg->AddComponent(new CameraFollower(*bg));
+	// bg->AddComponent(new CameraFollower(*bg));
+	bg->box.y = -100;
 	objectArray.emplace_back(bg);
+
+	GameObject* HUGGO = new GameObject();
+	HUGGO->AddComponent(new HUD(*HUGGO));
+	objectArray.emplace_back(HUGGO);	
 
 	/*
 	GameObject* map = new GameObject();
@@ -37,8 +43,8 @@ StageScene::StageScene()
 
 	GameObject* playerGO = new GameObject();
 	Player* player = new Player(*playerGO);
-	playerGO->box.x = 515;
-	playerGO->box.y = 305;
+	playerGO->box.x = 140;
+	playerGO->box.y = 150;
 	playerGO->AddComponent(player);
 	objectArray.emplace_back(playerGO);
 
@@ -53,7 +59,7 @@ StageScene::~StageScene()
 
 void StageScene::LoadAssets()
 {
-
+	
 }
 
 void StageScene::Start()
