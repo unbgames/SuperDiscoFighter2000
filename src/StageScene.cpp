@@ -13,6 +13,7 @@
 #include "Game.hpp"
 #include "Player.hpp"
 #include "HUD.hpp"
+#include "Enemy.hpp"
 
 StageScene::StageScene()
 {
@@ -47,6 +48,29 @@ StageScene::StageScene()
 	playerGO->box.y = 150;
 	playerGO->AddComponent(player);
 	objectArray.emplace_back(playerGO);
+
+	GameObject* enemyGO = new GameObject();
+	Enemy* enemy = new Enemy(*enemyGO);
+	enemyGO->box.x = 540;
+	enemyGO->box.y = 160;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	/*
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO);
+	enemyGO->box.x = 540;
+	enemyGO->box.y = 100;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO);
+	enemyGO->box.x = 540;
+	enemyGO->box.y = 300;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+	*/
 
 	Camera::pos.x = Camera::pos.y = 0;
 	//Camera::Follow(playerGO);

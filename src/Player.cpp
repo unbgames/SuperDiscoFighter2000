@@ -84,7 +84,7 @@ void Player::Update(float dt)
             }
             else
             {
-                associated.AddComponent(new Sprite(associated, (rand()%2 == 1 ? "games/SuperDiscoFighter2000/assets/img/player_punch_left.png" : "assets/img/player_punch_right.png"), 5, 0.6));
+                associated.AddComponent(new Sprite(associated, (rand()%2 == 1 ? "games/SuperDiscoFighter2000/assets/img/player_punch_left.png" : "games/SuperDiscoFighter2000/assets/img/player_punch_right.png"), 5, 0.6));
             }
         }
     }

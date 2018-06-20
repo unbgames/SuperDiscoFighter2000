@@ -22,6 +22,7 @@ void HUDTrack::Update(float dt)
     {
         beats[i]->box.x += 10;
         beats[i]->Update(dt);
+        printf("x pos %lf\n", beats[i]->box.x);
     }
     // if(beats[beats.size()-1]->box.x - (direction)*Game::GetInstance().GetWidth()/2 > 0);
     // {
@@ -37,8 +38,6 @@ void HUDTrack::AddBeat()
 	note->box.y = associated.box.y;
 	note->box.x = associated.box.x;
     beats.push_back((std::unique_ptr<GameObject>)note);
-
-    printf("lalala\n");
 }
 
 bool HUDTrack::Is(std::string type)
