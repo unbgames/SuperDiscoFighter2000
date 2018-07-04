@@ -46,11 +46,11 @@ void Enemy::Update(float dt)
     {
         if(BeatManager::GetInstance().IsBeat() and not moved)
         {
-            printf("x %lf\n", associated.box.x);
-            printf("y %lf\n", associated.box.y);
+            // printf("x %lf\n", associated.box.x);
+            // printf("y %lf\n", associated.box.y);
             moved = true; 
             int action = rand() % 3 + 1;
-            printf("ACTION %d\n", action);
+            // printf("ACTION %d\n", action);
 
             switch(action)
             {

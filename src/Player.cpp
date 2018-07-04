@@ -39,10 +39,10 @@ void Player::Update(float dt)
     {
         // printf("x %lf\n", associated.box.x);
         // printf("y %lf\n", associated.box.y);
-        if(BeatManager::GetInstance().IsBeat())
-        {
-            printf("isBeat: %d\n", BeatManager::GetInstance().IsBeat());
-        }
+        // if(BeatManager::GetInstance().IsBeat())
+        // {
+        //     printf("isBeat: %d\n", BeatManager::GetInstance().IsBeat());
+        // }
 
         if(InputManager::GetInstance().KeyPress(SDLK_UP))
         {
@@ -66,10 +66,6 @@ void Player::Update(float dt)
         }
         if(InputManager::GetInstance().KeyPress(SDLK_RIGHT))
         {
-            if(BeatManager::GetInstance().IsBeat())
-            {
-                printf("BEATOU!");
-            }
             associated.box.x += 90;
         }
         if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
