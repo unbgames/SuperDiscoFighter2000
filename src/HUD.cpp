@@ -14,19 +14,28 @@ HUD::HUD(GameObject& associated) : Component(associated)
 
 	leftTrack = new GameObject();
 	leftTrack->AddComponent(new HUDTrack(associated, HUDTrack::TrackDirection::LEFT));
-	leftTrack->box.y = associated.box.y;
-	leftTrack->box.x = associated.box.x;
+
+	rightTrack = new GameObject();
+	rightTrack->AddComponent(new HUDTrack(associated, HUDTrack::TrackDirection::RIGHT));
+
+	leftTrack->box.y = rightTrack->box.y = associated.box.y;
+	leftTrack->box.x = rightTrack->box.y = associated.box.x;
 
 	noteRendered = false;
 }
 
 void HUD::Update(float dt)
 {
-	((HUDTrack *)leftTrack->GetComponent("HUDTrack"))->Update(dt);
-	if(BeatManager::GetInstance().IsBeat() and not noteRendered)
+	((HUDTrack *)leftTrack->GetComponent("HUDTrack1"))->Update(dt);
+	((HUDTrack *)rightTrack->GetComponent("HUDTrack-1"))->Update(dt);
+	if(BeatManager::GetInstance().IsBeat())
 	{
-		noteRendered = true;
-		((HUDTrack *)leftTrack->GetComponent("HUDTrack"))->AddBeat();
+		if(not noteRendered)
+		{
+			noteRendered = true;
+			((HUDTrack *)leftTrack->GetComponent("HUDTrack1"))->AddBeat();
+			((HUDTrack *)rightTrack->GetComponent("HUDTrack-1"))->AddBeat();
+		}
 	}
 	else
 	{
@@ -36,7 +45,8 @@ void HUD::Update(float dt)
 
 void HUD::Render()
 {
-	((HUDTrack *)leftTrack->GetComponent("HUDTrack"))->Render();
+	((HUDTrack *)leftTrack->GetComponent("HUDTrack1"))->Render();
+	((HUDTrack *)rightTrack->GetComponent("HUDTrack-1"))->Render();
 }
 
 bool HUD::Is(std::string type)

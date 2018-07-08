@@ -29,9 +29,10 @@ StageScene::StageScene()
 	bg->box.y = -100;
 	objectArray.emplace_back(bg);
 
-	GameObject* HUGGO = new GameObject();
-	HUGGO->AddComponent(new HUD(*HUGGO));
-	objectArray.emplace_back(HUGGO);	
+	GameObject* HUDGO = new GameObject();
+	HUDGO->AddComponent(new HUD(*HUDGO));
+	// HUDGO->AddComponent(new CameraFollower(*HUDGO));
+	objectArray.emplace_back(HUDGO);	
 
 	/*
 	GameObject* map = new GameObject();
@@ -72,8 +73,8 @@ StageScene::StageScene()
 	objectArray.emplace_back(enemyGO);
 	*/
 
-	Camera::pos.x = Camera::pos.y = 0;
-	//Camera::Follow(playerGO);
+	// Camera::pos.x = Camera::pos.y = 0;
+	Camera::Follow(playerGO);
 }
 
 StageScene::~StageScene()
@@ -95,7 +96,7 @@ void StageScene::Start()
 
 void StageScene::Update(float dt)
 {
-	//Camera::Update(dt);
+	Camera::Update(dt);
 
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE) || InputManager::GetInstance().QuitRequested())
 	{
@@ -140,11 +141,11 @@ void StageScene::Render()
 {
 	for(int i = 0; i < (int) objectArray.size(); ++i)
 	{
-		if(objectArray[i]->GetComponent("TileMap") != nullptr)
-		{
-			objectArray[i]->box.x = Camera::pos.x;
-			objectArray[i]->box.y = Camera::pos.y;
-		}
+		// if(objectArray[i]->GetComponent("HUD") != nullptr)
+		// {
+		// 	objectArray[i]->box.x = Camera::pos.x;
+		// 	objectArray[i]->box.y = Camera::pos.y;
+		// }
 		objectArray[i]->Render();
 	}
 }

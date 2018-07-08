@@ -12,7 +12,7 @@ BeatManager::BeatManager() : isBeat {false}
 {
 	beatTimer = Timer();
     
-    beatOffset = 10.0f;
+    beatOffset = 20.0f;
 }
 
 BeatManager::~BeatManager() 
@@ -22,8 +22,6 @@ BeatManager::~BeatManager()
 void BeatManager::Update(float dt)
 {
     beatTimer.Update(dt);
-
-    //printf("%lf\n", beatTimer.Get());
 
     if(beatTimer.Get() >= beatOffset)
     {
