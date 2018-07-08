@@ -1,4 +1,4 @@
-#include "SDL2/SDL.h"
+#include "EngineSDL.hpp"
 
 #include "StageScene.hpp"
 #include "Sprite.hpp"
