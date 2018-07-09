@@ -103,7 +103,7 @@ void Player::MoveRight(){
 void Player::MoveUp(){
     if(state != MOVING) return;
 
-    if(Game::GetInstance().GetHeight()/3 < associated.box.y)
+    if(Game::GetInstance().GetHeight()/5 < associated.box.y)
     {
         associated.box.y -= STEP_LATERAL_LENGHT;
         associated.box.x -= STEP_LATERAL_LENGHT;
