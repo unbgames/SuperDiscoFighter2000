@@ -5,6 +5,10 @@
 #include "Collider.hpp"
 #include "Game.hpp"
 #include "BeatManager.hpp"
+#include "Camera.hpp"
+
+#define STEP_LENGHT 50
+#define STEP_LATERAL_LENGHT 30
 
 Player* Player::player;
 
@@ -46,27 +50,42 @@ void Player::Update(float dt)
 
         if(InputManager::GetInstance().KeyPress(SDLK_UP))
         {
-            if(Game::GetInstance().GetHeight()/6 < associated.box.y)
+            if(Game::GetInstance().GetHeight()/4 < associated.box.y)
             {
-                associated.box.y -= 45;
-                associated.box.x += 60;
+                associated.box.y -= STEP_LATERAL_LENGHT;
+                associated.box.x -= STEP_LATERAL_LENGHT;
             }
         }
         if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
         {
-            if(Game::GetInstance().GetHeight() - 350 > associated.box.y)
+            if(Game::GetInstance().GetHeight() - 300 > associated.box.y)
             {
-                associated.box.y += 45;
-                associated.box.x -= 60;
+                associated.box.y += STEP_LATERAL_LENGHT;
+                associated.box.x += STEP_LATERAL_LENGHT;
             }
         }
         if(InputManager::GetInstance().KeyPress(SDLK_LEFT))
         {
-            associated.box.x -= 90;
+            if(associated.box.x < Game::GetInstance().GetWidth()/2 + 50)
+            {
+                Camera::Unfollow();
+            }
+            if(associated.box.x > 0)
+            {
+                associated.box.x -= STEP_LENGHT;
+            }
         }
         if(InputManager::GetInstance().KeyPress(SDLK_RIGHT))
         {
-            associated.box.x += 90;
+            if(associated.box.x > Game::GetInstance().GetWidth()/2)
+            {
+                Camera::Follow(&associated);
+            }
+            else
+            {
+                Camera::Unfollow();
+            }
+            associated.box.x += STEP_LENGHT;
         }
         if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
         {

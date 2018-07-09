@@ -21,17 +21,19 @@ StageScene::StageScene()
 	started = false;
 
     backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body1.wav");
+	Camera::pos.x = Camera::pos.y = 0;
+	// Camera::Follow(playerGO);
+
     backgroundMusic.Play(-1);
         
     GameObject* bg = new GameObject();
-    bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/background.png"));
+    bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/scenario.jpg"));
 	// bg->AddComponent(new CameraFollower(*bg));
-	bg->box.y = -100;
 	objectArray.emplace_back(bg);
 
 	GameObject* HUDGO = new GameObject();
-	HUDGO->AddComponent(new HUD(*HUDGO));
 	// HUDGO->AddComponent(new CameraFollower(*HUDGO));
+	HUDGO->AddComponent(new HUD(*HUDGO));
 	objectArray.emplace_back(HUDGO);	
 
 	/*
@@ -45,7 +47,7 @@ StageScene::StageScene()
 
 	GameObject* playerGO = new GameObject();
 	Player* player = new Player(*playerGO);
-	playerGO->box.x = 140;
+	playerGO->box.x = 25;
 	playerGO->box.y = 150;
 	playerGO->AddComponent(player);
 	objectArray.emplace_back(playerGO);
@@ -72,9 +74,6 @@ StageScene::StageScene()
 	enemyGO->AddComponent(enemy);
 	objectArray.emplace_back(enemyGO);
 	*/
-
-	// Camera::pos.x = Camera::pos.y = 0;
-	Camera::Follow(playerGO);
 }
 
 StageScene::~StageScene()
