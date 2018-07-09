@@ -68,7 +68,7 @@ void Player::Update(float dt)
         {
             if(associated.box.x < Game::GetInstance().GetWidth()/2 + 50)
             {
-                Camera::Unfollow();
+                // Camera::Unfollow();
             }
             if(associated.box.x > 0)
             {
@@ -79,11 +79,11 @@ void Player::Update(float dt)
         {
             if(associated.box.x > Game::GetInstance().GetWidth()/2)
             {
-                Camera::Follow(&associated);
+                // Camera::Follow(&associated);
             }
             else
             {
-                Camera::Unfollow();
+                // Camera::Unfollow();
             }
             associated.box.x += STEP_LENGHT;
         }

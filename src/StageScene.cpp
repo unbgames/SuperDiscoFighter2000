@@ -22,7 +22,7 @@ StageScene::StageScene()
 
     backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body1.wav");
 	Camera::pos.x = Camera::pos.y = 0;
-	// Camera::Follow(playerGO);
+	
 
     backgroundMusic.Play(-1);
         
@@ -58,6 +58,8 @@ StageScene::StageScene()
 	enemyGO->box.y = 160;
 	enemyGO->AddComponent(enemy);
 	objectArray.emplace_back(enemyGO);
+
+	Camera::Follow(playerGO);
 
 	/*
 	enemyGO = new GameObject();

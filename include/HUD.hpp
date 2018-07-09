@@ -8,6 +8,7 @@ class HUD : public Component
     private:
         GameObject* leftTrack;
         GameObject* rightTrack;
+        GameObject* vinil;
 
         bool noteRendered;
 
@@ -17,6 +18,10 @@ class HUD : public Component
         void Update(float dt);
         void Render();
         bool Is(std::string type);
+
+    // Prefab
+    private:
+        GameObject* CreateVinil();
 
 };
 
