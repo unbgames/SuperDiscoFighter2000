@@ -14,11 +14,13 @@
 #include "Player.hpp"
 #include "HUD.hpp"
 #include "Enemy.hpp"
+#include "BeatManager.hpp"
 
 StageScene::StageScene()
 {
     quitRequested = false;
 	started = false;
+	countBg = 1;
 
     backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body1.wav");
 	Camera::pos.x = Camera::pos.y = 0;
@@ -26,8 +28,8 @@ StageScene::StageScene()
 
     backgroundMusic.Play(-1);
         
-    GameObject* bg = new GameObject();
-    bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/scenario.jpg"));
+    bg = new GameObject();
+    bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/scenario_" + std::to_string(countBg) + ".png"));
 	// bg->AddComponent(new CameraFollower(*bg));
 	objectArray.emplace_back(bg);
 
@@ -48,17 +50,58 @@ StageScene::StageScene()
 	GameObject* playerGO = new GameObject();
 	Player* player = new Player(*playerGO);
 	playerGO->box.x = 25;
-	playerGO->box.y = 150;
+	playerGO->box.y = 250;
 	playerGO->AddComponent(player);
 	objectArray.emplace_back(playerGO);
 
 	GameObject* enemyGO = new GameObject();
 	Enemy* enemy = new Enemy(*enemyGO, playerGO);
 	enemyGO->box.x = 540;
-	enemyGO->box.y = 160;
+	enemyGO->box.y = 360;
 	enemyGO->AddComponent(enemy);
 	objectArray.emplace_back(enemyGO);
 
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 840;
+	enemyGO->box.y = 260;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 1040;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 2040;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 2540;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 3040;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 3540;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
 	/*
 	enemyGO = new GameObject();
 	enemy = new Enemy(*enemyGO);
@@ -95,6 +138,13 @@ void StageScene::Start()
 
 void StageScene::Update(float dt)
 {
+	if(BeatManager::GetInstance().IsBeat())
+	{
+		countBg = (++countBg%4) + 1;
+		bg->RemoveComponent((Component *)bg->GetComponent("Sprite"));
+		bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/scenario_" + std::to_string(countBg) + ".png"));
+	}
+
 	Camera::Update(dt);
 
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE) || InputManager::GetInstance().QuitRequested())

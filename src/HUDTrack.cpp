@@ -46,7 +46,7 @@ void HUDTrack::AddBeat()
     GameObject* note = new GameObject();
     Sprite* musicNote = new Sprite(*note, "games/SuperDiscoFighter2000/assets/img/music_note.png");
     note->AddComponent(musicNote);
-	note->box.y = Camera::pos.y + associated.box.y;
+	note->box.y = Camera::pos.y + associated.box.y + 20;
 	note->box.x = Camera::pos.x + (direction == LEFT ? 0: Game::GetInstance().GetWidth());
     beats.push_back((std::unique_ptr<GameObject>)note);
 }

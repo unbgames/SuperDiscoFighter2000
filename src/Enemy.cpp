@@ -25,6 +25,7 @@ Enemy::Enemy(GameObject& associated, GameObject* player) : Component(associated)
     state = MOVING;
     stateTimer = Timer();
     moved = false;
+    hp = 50;
     
     srand(time(NULL));
     stateOffset = rand() % MAX_TIME + MIN_TIME;
@@ -50,12 +51,19 @@ void Enemy::Update(float dt)
     int distanceAngle = (180 / M_PI) * atan2(player->box.Center().y - associated.box.Center().y, player->box.Center().x - associated.box.Center().x);
     int distance = associated.box.Center().Distance(player->box.Center());
 
+    if(hp <= 0)
+    {
+        associated.RequestDelete();
+    }
+
+    
+
     if(state == MOVING)
     {
         if(BeatManager::GetInstance().IsBeat() and not moved)
         {
-            printf("x %lf\n", associated.box.x);
-            printf("y %lf\n", associated.box.y);
+            // printf("x %lf\n", associated.box.x);
+            // printf("y %lf\n", associated.box.y);
             moved = true; 
             int action = (distanceAngle > 0 and distanceAngle < 180)? 2: 1;
             // printf("ACTION %d\n", action);
@@ -63,18 +71,16 @@ void Enemy::Update(float dt)
             switch(action)
             {
                 case 1:
-                    if(Game::GetInstance().GetHeight()/4 < associated.box.y)
+                    if(Game::GetInstance().GetHeight()/3 < associated.box.y)
                     {
                         associated.box.y -= 10;
-                        //associated.box.x -= 60;
                     }
                 break;
 
                 case 2:
-                    if(Game::GetInstance().GetHeight() - 350 > associated.box.y)
+                    if(Game::GetInstance().GetHeight() - 320 > associated.box.y)
                     {
                         associated.box.y += 10;
-                        //associated.box.x += 60;
                     }
                 break;
             }
@@ -103,7 +109,7 @@ void Enemy::Update(float dt)
     {
         stateTimer.Update(dt);
 
-        if (stateTimer.Get() > 3.f)
+        if (stateTimer.Get() > 4.f)
         {
             state = MOVING;
             associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
@@ -135,5 +141,9 @@ bool Enemy::Is(std::string type)
 
 void Enemy::NotifyCollision(GameObject& other)
 {
-
+    if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
+    {
+        hp -= 10;
+        associated.box.x += 2;   
+    }
 }
