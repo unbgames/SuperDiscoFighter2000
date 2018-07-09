@@ -6,6 +6,9 @@
 #include "Game.hpp"
 #include "BeatManager.hpp"
 #include "Camera.hpp"
+#include "EndScene.hpp"
+#include "GameData.hpp"
+#include "Enemy.hpp"
 
 #define STEP_LENGHT 50
 #define STEP_LATERAL_LENGHT 30
@@ -25,6 +28,7 @@ Player::Player(GameObject& associated) : Component(associated)
     state = MOVING;
     punchTimer = Timer();
     punchOffset = 3;
+    hp = 500;
 }
 
 Player::~Player()
@@ -114,6 +118,15 @@ void Player::Update(float dt)
             associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/player_iddle.png", 4, 1));
         }
     }
+
+    if(hp <= 0)
+    {
+        associated.RequestDelete();
+
+        GameData::playerVictory = false;
+        EndScene *endScene = new EndScene();
+        Game::GetInstance().Push(endScene);
+    }
 }
 
 void Player::Render()
@@ -129,6 +142,11 @@ bool Player::Is(std::string type)
 
 void Player::NotifyCollision (GameObject& other)
 {
+    Enemy* enemy = (Enemy*)other.GetComponent("Enemy");
+	if(enemy != nullptr)
+    {
+        hp -= 5;
+	}
     // associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
     // associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/player_damage.png", 1, 1, 2));
 }

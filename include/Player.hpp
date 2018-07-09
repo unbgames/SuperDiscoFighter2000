@@ -15,6 +15,8 @@ class Player : public Component
 
         Timer punchTimer;
         float punchOffset;
+
+        int hp;
     
     public:
         static Player* player;
