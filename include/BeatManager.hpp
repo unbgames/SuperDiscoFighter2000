@@ -3,7 +3,7 @@
 
 #include "Timer.hpp"
 
-#define BEAT_DELTA_TIME 1.f
+#define BEAT_DELTA_TIME 1.3f
 
 class BeatManager
 {

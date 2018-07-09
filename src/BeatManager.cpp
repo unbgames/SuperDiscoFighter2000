@@ -11,8 +11,7 @@ BeatManager& BeatManager::GetInstance()
 BeatManager::BeatManager() : isBeat {false}
 {
 	beatTimer = Timer();
-    
-    beatOffset = 20.0f;
+    beatOffset = 5.0f;
 }
 
 BeatManager::~BeatManager() 

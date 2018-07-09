@@ -20,7 +20,7 @@ StageScene::StageScene()
     quitRequested = false;
 	started = false;
 
-    backgroundMusic = Music("sample_assets/audio/stageState.ogg");
+    backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body1.wav");
     backgroundMusic.Play(-1);
         
     GameObject* bg = new GameObject();
