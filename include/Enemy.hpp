@@ -17,6 +17,7 @@ class Enemy : public Component
         float stateOffset;
 
         bool moved;
+        int hp;
 
         GameObject* player;
     

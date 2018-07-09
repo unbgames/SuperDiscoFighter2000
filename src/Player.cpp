@@ -50,7 +50,7 @@ void Player::Update(float dt)
 
         if(InputManager::GetInstance().KeyPress(SDLK_UP))
         {
-            if(Game::GetInstance().GetHeight()/4 < associated.box.y)
+            if(Game::GetInstance().GetHeight()/3 < associated.box.y)
             {
                 associated.box.y -= STEP_LATERAL_LENGHT;
                 associated.box.x -= STEP_LATERAL_LENGHT;
@@ -58,7 +58,7 @@ void Player::Update(float dt)
         }
         if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
         {
-            if(Game::GetInstance().GetHeight() - 300 > associated.box.y)
+            if(Game::GetInstance().GetHeight() - 220 > associated.box.y)
             {
                 associated.box.y += STEP_LATERAL_LENGHT;
                 associated.box.x += STEP_LATERAL_LENGHT;
@@ -129,5 +129,6 @@ bool Player::Is(std::string type)
 
 void Player::NotifyCollision (GameObject& other)
 {
-
+    // associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
+    // associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/player_damage.png", 1, 1, 2));
 }

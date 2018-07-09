@@ -20,6 +20,7 @@ class MusicNoteBehavior: public Component {
         bool isLast = false;
         bool isPunch = false;
         bool isBeaten = false;
+        bool isTriggered = false;
         bool CheckPunchInput();
         bool CheckMovimentInput();
 

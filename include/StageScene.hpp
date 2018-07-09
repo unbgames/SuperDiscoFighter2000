@@ -10,6 +10,8 @@ class StageScene : public Scene
     private:
         TileSet* tileSet;
         Music backgroundMusic;
+        GameObject* bg;
+        int countBg;
 
     public:
         StageScene();
