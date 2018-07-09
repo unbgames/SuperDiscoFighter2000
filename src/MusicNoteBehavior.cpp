@@ -18,7 +18,7 @@ void MusicNoteBehavior::Start()
 void MusicNoteBehavior::Update(float dt)
 {
     if ( CheckInsideVinil( 10 ) && !isBeaten ){
-        if ( isPunch ? CheckPunchInput() : CheckMovimentInput() ){
+        if ( CheckPunchInput() || CheckMovimentInput() ){
             if ( track != nullptr && isLast ){
                 if ( track->RemoveBeatIfIsLast(&associated) ){
                     Play();
