@@ -4,13 +4,12 @@
 #include "Sprite.hpp"
 #include "HUDTrack.hpp"
 #include "BeatManager.hpp"
+#include "Camera.hpp"
 
 HUD::HUD(GameObject& associated) : Component(associated)
 {
 	Sprite* vinylSprite = new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/vinyl_disc.png");
     associated.AddComponent(vinylSprite);
-	associated.box.y = 500;
-	associated.box.x = Game::GetInstance().GetWidth()/2 - vinylSprite->GetWidth()/2;
 
 	leftTrack = new GameObject();
 	leftTrack->AddComponent(new HUDTrack(associated, HUDTrack::TrackDirection::LEFT));
@@ -26,6 +25,9 @@ HUD::HUD(GameObject& associated) : Component(associated)
 
 void HUD::Update(float dt)
 {
+	associated.box.y = Camera::pos.y + 505;
+	associated.box.x = Camera::pos.x + Game::GetInstance().GetWidth()/2 - 48;
+	
 	((HUDTrack *)leftTrack->GetComponent("HUDTrack1"))->Update(dt);
 	((HUDTrack *)rightTrack->GetComponent("HUDTrack-1"))->Update(dt);
 	if(BeatManager::GetInstance().IsBeat())
@@ -44,7 +46,7 @@ void HUD::Update(float dt)
 }
 
 void HUD::Render()
-{
+{	
 	((HUDTrack *)leftTrack->GetComponent("HUDTrack1"))->Render();
 	((HUDTrack *)rightTrack->GetComponent("HUDTrack-1"))->Render();
 }
