@@ -25,11 +25,12 @@ class HUDTrack : public Component
         void AddBeat();
         bool RemoveBeatIfIsLast(GameObject* beat);
         void SetLast();
-    
+
+        TrackDirection direction;
+
     private:
         GameObject* CreateBeat();
         MusicNoteBehavior* GetScript(GameObject* beat);
-        TrackDirection direction;
         std::vector<std::unique_ptr<GameObject>> beats;
 };
 

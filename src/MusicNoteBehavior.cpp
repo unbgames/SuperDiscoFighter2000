@@ -101,6 +101,8 @@ bool MusicNoteBehavior::CheckMovimentInput(){
 
 void MusicNoteBehavior::MovePlayer()
 {
+    if(track->direction == HUDTrack::TrackDirection::RIGHT)
+        return;
 
     Player* player = Player::player;
 
