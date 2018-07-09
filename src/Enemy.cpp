@@ -12,11 +12,11 @@
 
 Enemy* Enemy::enemy;
 
-Enemy::Enemy(GameObject& associated) : Component(associated)
+Enemy::Enemy(GameObject& associated, GameObject* player) : Component(associated), player(player)
 {
     associated.AddComponent(new Collider(associated));
     
-    Sprite* sprite = new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/enemy_iddle.png");
+    Sprite* sprite = new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/enemy_iddle.png", 4, 1.5);
     associated.AddComponent(sprite);
     
     associated.box.w = sprite->GetWidth();
@@ -42,22 +42,30 @@ void Enemy::Start()
 
 void Enemy::Update(float dt)
 {
+    // printf("distance %lf\n", associated.box.Center().Distance(player->box.Center()));
+    // printf("angle %lf\n", (180 / M_PI) * atan2(player->box.Center().y - associated.box.Center().y, player->box.Center().x - associated.box.Center().x));
+
+    // associated.angleDeg = (180 / M_PI) * atan2((InputManager::GetInstance().GetMouseY() + Camera::pos.y - associated.box.Center().y), (InputManager::GetInstance().GetMouseX() + Camera::pos.x - associated.box.Center().x));
+
+    int distanceAngle = (180 / M_PI) * atan2(player->box.Center().y - associated.box.Center().y, player->box.Center().x - associated.box.Center().x);
+    int distance = associated.box.Center().Distance(player->box.Center());
+
     if(state == MOVING)
     {
         if(BeatManager::GetInstance().IsBeat() and not moved)
         {
-            // printf("x %lf\n", associated.box.x);
-            // printf("y %lf\n", associated.box.y);
+            printf("x %lf\n", associated.box.x);
+            printf("y %lf\n", associated.box.y);
             moved = true; 
-            int action = rand() % 3 + 1;
+            int action = (distanceAngle > 0 and distanceAngle < 180)? 2: 1;
             // printf("ACTION %d\n", action);
 
             switch(action)
             {
                 case 1:
-                    if(Game::GetInstance().GetHeight()/6 < associated.box.y)
+                    if(Game::GetInstance().GetHeight()/4 < associated.box.y)
                     {
-                        associated.box.y += 45;
+                        associated.box.y -= 10;
                         //associated.box.x -= 60;
                     }
                 break;
@@ -65,21 +73,24 @@ void Enemy::Update(float dt)
                 case 2:
                     if(Game::GetInstance().GetHeight() - 350 > associated.box.y)
                     {
-                        associated.box.y -= 45;
+                        associated.box.y += 10;
                         //associated.box.x += 60;
                     }
                 break;
-
-                case 3:
-                    associated.box.x -= 90;
-                break;
             }
+            
+            associated.box.x -= 10;
+
+            // state = RESTING;
+            // stateTimer.Restart();
+            // associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
+            // associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/enemy_rest.png"));
         }
         else if(not BeatManager::GetInstance().IsBeat())
         {
             moved = false;
         }
-        if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
+        if(distance < 100)
         {
             state = PUNCH;
             stateTimer.Restart();
@@ -96,7 +107,7 @@ void Enemy::Update(float dt)
         {
             state = MOVING;
             associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
-            associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/enemy_iddle.png"));
+            associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/enemy_iddle.png", 4, 1.5));
         }
     }
     else if(state == RESTING)
