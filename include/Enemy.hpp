@@ -17,11 +17,13 @@ class Enemy : public Component
         float stateOffset;
 
         bool moved;
+
+        GameObject* player;
     
     public:
         static Enemy* enemy;
 
-        Enemy(GameObject& associated);
+        Enemy(GameObject& associated, GameObject* player);
         ~Enemy();
 
         void Start();

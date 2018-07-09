@@ -53,7 +53,7 @@ StageScene::StageScene()
 	objectArray.emplace_back(playerGO);
 
 	GameObject* enemyGO = new GameObject();
-	Enemy* enemy = new Enemy(*enemyGO);
+	Enemy* enemy = new Enemy(*enemyGO, playerGO);
 	enemyGO->box.x = 540;
 	enemyGO->box.y = 160;
 	enemyGO->AddComponent(enemy);
