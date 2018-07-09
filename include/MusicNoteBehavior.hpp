@@ -18,6 +18,10 @@ class MusicNoteBehavior: public Component {
         void Play();
         void AddSound(std::string name);
         bool isLast = false;
+        bool isPunch = false;
+        bool isBeaten = false;
+        bool CheckPunchInput();
+        bool CheckMovimentInput();
 
     // Overrides
     public:

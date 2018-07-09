@@ -6,13 +6,6 @@
 
 MusicNoteBehavior::MusicNoteBehavior(GameObject& associated) : Component(associated)
 {
-    // std::string asset_path = "games/SuperDiscoFighter2000/assets/audio/percussao/";
-
-    // //Initialize sounds
-    // kickBeat =  new Sound( associated, asset_path + "kick 1.wav");
-    // palmBeat1 = new Sound( associated, asset_path + "clap 1.wav");
-    // palmBeat2 = new Sound( associated, asset_path + "clap 2.wav");
-    // palmBeat3 = new Sound( associated, asset_path + "clap 3.wav");
 }
 
 void MusicNoteBehavior::Start()
@@ -22,15 +15,14 @@ void MusicNoteBehavior::Start()
 
 void MusicNoteBehavior::Update(float dt)
 {
-    if ( CheckInsideVinil( 10 ) ){
-
-        if ( InputManager::GetInstance().KeyPress(SDLK_DOWN) ){
-            Play();
-            if ( track != nullptr ){
+    if ( CheckInsideVinil( 10 ) && !isBeaten ){
+        if ( isPunch ? CheckPunchInput() : CheckMovimentInput() ){
+            if ( track != nullptr && isLast ){
                 if ( track->RemoveBeatIfIsLast(&associated) ){
-                    printf("RIGHT YEAH! \n");
+                    Play();
+                    isBeaten = true;
                 }else{
-                    printf("not removed \n");
+                    // printf("not removed \n");
                 }
             }
         }
@@ -89,4 +81,15 @@ void MusicNoteBehavior::AddSound(std::string name)
 void MusicNoteBehavior::NotifyCollision(GameObject& other)
 {
     // Nothing
+}
+
+bool MusicNoteBehavior::CheckPunchInput(){
+    return InputManager::GetInstance().KeyPress(SDLK_SPACE);
+}
+
+bool MusicNoteBehavior::CheckMovimentInput(){
+    return InputManager::GetInstance().KeyPress(SDLK_DOWN) ||
+            InputManager::GetInstance().KeyPress(SDLK_UP) ||
+            InputManager::GetInstance().KeyPress(SDLK_RIGHT) ||
+            InputManager::GetInstance().KeyPress(SDLK_LEFT);
 }

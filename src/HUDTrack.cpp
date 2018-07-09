@@ -90,15 +90,9 @@ GameObject* HUDTrack::CreateBeat()
 bool HUDTrack::RemoveBeatIfIsLast(GameObject* beat)
 {
     if(beats.size() > 0) {
-        auto last = beats.begin();
-
-        if( GetScript(beat)->isLast ){
-
-            GetScript(beat)->isLast = false;
-            beats.erase(last);
-            SetLast();
-            return true;
-        }
+        // beats.erase(beats.begin());
+        // SetLast();
+        return true;
     }
 
     return false;
@@ -116,13 +110,8 @@ MusicNoteBehavior* HUDTrack::GetScript(GameObject* beat){
 void HUDTrack::SetLast(){
 
     if(beats.size() > 0) {
-
-        auto last = beats.begin();
-        // Update last
-        GameObject* lastNote = last->get();
-        if(lastNote != nullptr){
-            GetScript(lastNote)->isLast = true;
-        }
+        MusicNoteBehavior* lastNote = (MusicNoteBehavior*) beats[0]->GetComponent("MusicNoteBehavior");
+        lastNote->isLast = true;
     }
 
 }
