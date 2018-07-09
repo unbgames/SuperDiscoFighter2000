@@ -17,6 +17,13 @@ class Player : public Component
         float punchOffset;
     
     public:
+        void MoveLeft();
+        void MoveRight();
+        void MoveUp();
+        void MoveDown();
+        void Punch();
+
+    public:
         static Player* player;
 
         Player(GameObject& associated);

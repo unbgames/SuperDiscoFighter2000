@@ -78,6 +78,7 @@ GameObject* HUD::CreateVinil()
 {
 	GameObject* obj = new GameObject();
 	Sprite* vinylSprite = new Sprite(*obj, "games/SuperDiscoFighter2000/assets/img/vinyl_disc.png");
+	vinylSprite->denyCamera = true;
     obj->AddComponent(vinylSprite);
 	obj->box.x = Game::GetInstance().GetWidth()/2 - 48;
 	obj->box.y = 505;

@@ -22,7 +22,7 @@ StageScene::StageScene()
 	started = false;
 	countBg = 1;
 
-    backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body1.wav");
+    backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body.wav");
 	Camera::pos.x = Camera::pos.y = 0;
 	
 

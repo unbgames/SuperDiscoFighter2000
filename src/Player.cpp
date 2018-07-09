@@ -25,6 +25,8 @@ Player::Player(GameObject& associated) : Component(associated)
     state = MOVING;
     punchTimer = Timer();
     punchOffset = 3;
+
+    Player::player = this;
 }
 
 Player::~Player()
@@ -39,71 +41,7 @@ void Player::Start()
 
 void Player::Update(float dt)
 {
-    if(state == MOVING)
-    {
-        // printf("x %lf\n", associated.box.x);
-        // printf("y %lf\n", associated.box.y);
-        // if(BeatManager::GetInstance().IsBeat())
-        // {
-        //     printf("isBeat: %d\n", BeatManager::GetInstance().IsBeat());
-        // }
-
-        if(InputManager::GetInstance().KeyPress(SDLK_UP))
-        {
-            if(Game::GetInstance().GetHeight()/3 < associated.box.y)
-            {
-                associated.box.y -= STEP_LATERAL_LENGHT;
-                associated.box.x -= STEP_LATERAL_LENGHT;
-            }
-        }
-        if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
-        {
-            if(Game::GetInstance().GetHeight() - 220 > associated.box.y)
-            {
-                associated.box.y += STEP_LATERAL_LENGHT;
-                associated.box.x += STEP_LATERAL_LENGHT;
-            }
-        }
-        if(InputManager::GetInstance().KeyPress(SDLK_LEFT))
-        {
-            if(associated.box.x < Game::GetInstance().GetWidth()/2 + 50)
-            {
-                // Camera::Unfollow();
-            }
-            if(associated.box.x > 0)
-            {
-                associated.box.x -= STEP_LENGHT;
-            }
-        }
-        if(InputManager::GetInstance().KeyPress(SDLK_RIGHT))
-        {
-            if(associated.box.x > Game::GetInstance().GetWidth()/2)
-            {
-                // Camera::Follow(&associated);
-            }
-            else
-            {
-                // Camera::Unfollow();
-            }
-            associated.box.x += STEP_LENGHT;
-        }
-        if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
-        {
-            state = PUNCH;
-            punchTimer.Restart();
-
-            associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
-            if(InputManager::GetInstance().IsKeyDown(SDLK_RIGHT))
-            {      
-                associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/player_punch_up.png", 3, 1));
-            }
-            else
-            {
-                associated.AddComponent(new Sprite(associated, (rand()%2 == 1 ? "games/SuperDiscoFighter2000/assets/img/player_punch_left.png" : "games/SuperDiscoFighter2000/assets/img/player_punch_right.png"), 5, 0.6));
-            }
-        }
-    }
-    else if(state == PUNCH)
+    if(state == PUNCH)
     {
         punchTimer.Update(dt);
 
@@ -131,4 +69,70 @@ void Player::NotifyCollision (GameObject& other)
 {
     // associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
     // associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/player_damage.png", 1, 1, 2));
+}
+
+
+void Player::MoveLeft(){
+    if(state != MOVING) return;
+
+
+    if(associated.box.x < Game::GetInstance().GetWidth()/2 + 50)
+    {
+        Camera::Unfollow();
+    }
+    if(associated.box.x > 0)
+    {
+        associated.box.x -= STEP_LENGHT;
+    }
+}
+
+void Player::MoveRight(){
+    if(state != MOVING) return;
+
+    if(associated.box.x > Game::GetInstance().GetWidth()/2)
+    {
+        Camera::Follow(&associated);
+    }
+    else
+    {
+        Camera::Unfollow();
+    }
+    associated.box.x += STEP_LENGHT;
+}
+
+void Player::MoveUp(){
+    if(state != MOVING) return;
+
+    if(Game::GetInstance().GetHeight()/3 < associated.box.y)
+    {
+        associated.box.y -= STEP_LATERAL_LENGHT;
+        associated.box.x -= STEP_LATERAL_LENGHT;
+    }
+}
+
+void Player::MoveDown(){
+    if(state != MOVING) return;
+
+    if(Game::GetInstance().GetHeight() - 220 > associated.box.y)
+    {
+        associated.box.y += STEP_LATERAL_LENGHT;
+        associated.box.x += STEP_LATERAL_LENGHT;
+    }
+}
+
+void Player::Punch(){
+    if(state != MOVING) return;
+
+    state = PUNCH;
+    punchTimer.Restart();
+
+    associated.RemoveComponent((Sprite *)associated.GetComponent("Sprite"));
+    if(InputManager::GetInstance().IsKeyDown(SDLK_RIGHT))
+    {      
+        associated.AddComponent(new Sprite(associated, "games/SuperDiscoFighter2000/assets/img/player_punch_up.png", 3, 1));
+    }
+    else
+    {
+        associated.AddComponent(new Sprite(associated, (rand()%2 == 1 ? "games/SuperDiscoFighter2000/assets/img/player_punch_left.png" : "games/SuperDiscoFighter2000/assets/img/player_punch_right.png"), 5, 0.6));
+    }
 }

@@ -3,6 +3,8 @@
 #include <string>
 #include "EngineSDL.hpp"
 #include "InputManager.hpp"
+#include "Player.hpp"
+
 
 MusicNoteBehavior::MusicNoteBehavior(GameObject& associated) : Component(associated)
 {
@@ -21,6 +23,7 @@ void MusicNoteBehavior::Update(float dt)
                 if ( track->RemoveBeatIfIsLast(&associated) ){
                     Play();
                     isBeaten = true;
+                    MovePlayer();
                 }else{
                     // printf("not removed \n");
                 }
@@ -92,4 +95,45 @@ bool MusicNoteBehavior::CheckMovimentInput(){
             InputManager::GetInstance().KeyPress(SDLK_UP) ||
             InputManager::GetInstance().KeyPress(SDLK_RIGHT) ||
             InputManager::GetInstance().KeyPress(SDLK_LEFT);
+}
+
+
+
+void MusicNoteBehavior::MovePlayer()
+{
+
+    Player* player = Player::player;
+
+    if(player == nullptr){
+        printf("player not found\n");
+        return;
+    }
+
+    try {
+        if(InputManager::GetInstance().KeyPress(SDLK_UP))
+        {
+            player->MoveUp();
+        }
+        else if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
+        {
+            player->MoveDown();
+        }
+        else if(InputManager::GetInstance().KeyPress(SDLK_LEFT))
+        {
+            player->MoveLeft();
+        }
+        else if(InputManager::GetInstance().KeyPress(SDLK_RIGHT))
+        {
+            player->MoveRight();
+        }
+        else if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
+        {
+            player->Punch();
+        }else{
+
+        }
+    }
+    catch (...) {
+        printf("Quebrou\n");
+    }
 }

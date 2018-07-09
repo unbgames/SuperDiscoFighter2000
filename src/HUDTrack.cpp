@@ -66,6 +66,7 @@ GameObject* HUDTrack::CreateBeat()
 {
     GameObject* note = new GameObject();
     Sprite* musicNote = new Sprite(*note, "games/SuperDiscoFighter2000/assets/img/music_note.png");
+    musicNote->denyCamera = true;
     note->AddComponent(musicNote);
 
     MusicNoteBehavior* script = new MusicNoteBehavior(*note);

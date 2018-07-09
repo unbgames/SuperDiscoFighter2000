@@ -23,6 +23,7 @@ class MusicNoteBehavior: public Component {
         bool isTriggered = false;
         bool CheckPunchInput();
         bool CheckMovimentInput();
+        void MovePlayer();
 
     // Overrides
     public:
