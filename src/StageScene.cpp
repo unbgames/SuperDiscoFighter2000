@@ -1,4 +1,4 @@
-#include "SDL2/SDL.h"
+#include "EngineSDL.hpp"
 
 #include "StageScene.hpp"
 #include "Sprite.hpp"
@@ -12,19 +12,31 @@
 #include "TitleScene.hpp"
 #include "Game.hpp"
 #include "Player.hpp"
+#include "HUD.hpp"
+#include "Enemy.hpp"
+#include "BeatManager.hpp"
 
 StageScene::StageScene()
 {
     quitRequested = false;
 	started = false;
+	countBg = 1;
 
-    backgroundMusic = Music("sample_assets/audio/stageState.ogg");
+    backgroundMusic = Music("games/SuperDiscoFighter2000/assets/audio/all_body.wav");
+	Camera::pos.x = Camera::pos.y = 0;
+	
+
     backgroundMusic.Play(-1);
         
-    GameObject* bg = new GameObject();
-    bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/background.png"));
-	bg->AddComponent(new CameraFollower(*bg));
+    bg = new GameObject();
+    bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/scenario_" + std::to_string(countBg) + ".png"));
+	// bg->AddComponent(new CameraFollower(*bg));
 	objectArray.emplace_back(bg);
+
+	GameObject* HUDGO = new GameObject();
+	// HUDGO->AddComponent(new CameraFollower(*HUDGO));
+	HUDGO->AddComponent(new HUD(*HUDGO));
+	objectArray.emplace_back(HUDGO);	
 
 	/*
 	GameObject* map = new GameObject();
@@ -37,13 +49,74 @@ StageScene::StageScene()
 
 	GameObject* playerGO = new GameObject();
 	Player* player = new Player(*playerGO);
-	playerGO->box.x = 515;
-	playerGO->box.y = 305;
+	playerGO->box.x = 25;
+	playerGO->box.y = 250;
 	playerGO->AddComponent(player);
 	objectArray.emplace_back(playerGO);
 
-	Camera::pos.x = Camera::pos.y = 0;
-	//Camera::Follow(playerGO);
+	GameObject* enemyGO = new GameObject();
+	Enemy* enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 540;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 1040;
+	enemyGO->box.y = 260;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 1540;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 2040;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 2540;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 3040;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO, playerGO);
+	enemyGO->box.x = 3540;
+	enemyGO->box.y = 360;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+	/*
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO);
+	enemyGO->box.x = 540;
+	enemyGO->box.y = 100;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+
+	enemyGO = new GameObject();
+	enemy = new Enemy(*enemyGO);
+	enemyGO->box.x = 540;
+	enemyGO->box.y = 300;
+	enemyGO->AddComponent(enemy);
+	objectArray.emplace_back(enemyGO);
+	*/
 }
 
 StageScene::~StageScene()
@@ -53,7 +126,7 @@ StageScene::~StageScene()
 
 void StageScene::LoadAssets()
 {
-
+	
 }
 
 void StageScene::Start()
@@ -65,7 +138,14 @@ void StageScene::Start()
 
 void StageScene::Update(float dt)
 {
-	//Camera::Update(dt);
+	if(BeatManager::GetInstance().IsBeat())
+	{
+		countBg = (++countBg%4) + 1;
+		bg->RemoveComponent((Component *)bg->GetComponent("Sprite"));
+		bg->AddComponent(new Sprite(*bg, "games/SuperDiscoFighter2000/assets/img/scenario_" + std::to_string(countBg) + ".png"));
+	}
+
+	Camera::Update(dt);
 
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE) || InputManager::GetInstance().QuitRequested())
 	{
@@ -110,11 +190,11 @@ void StageScene::Render()
 {
 	for(int i = 0; i < (int) objectArray.size(); ++i)
 	{
-		if(objectArray[i]->GetComponent("TileMap") != nullptr)
-		{
-			objectArray[i]->box.x = Camera::pos.x;
-			objectArray[i]->box.y = Camera::pos.y;
-		}
+		// if(objectArray[i]->GetComponent("HUD") != nullptr)
+		// {
+		// 	objectArray[i]->box.x = Camera::pos.x;
+		// 	objectArray[i]->box.y = Camera::pos.y;
+		// }
 		objectArray[i]->Render();
 	}
 }

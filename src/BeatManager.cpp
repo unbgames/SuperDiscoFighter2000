@@ -11,8 +11,7 @@ BeatManager& BeatManager::GetInstance()
 BeatManager::BeatManager() : isBeat {false}
 {
 	beatTimer = Timer();
-    
-    beatOffset = 10.0f;
+    beatOffset = 5.0f;
 }
 
 BeatManager::~BeatManager() 
@@ -22,8 +21,6 @@ BeatManager::~BeatManager()
 void BeatManager::Update(float dt)
 {
     beatTimer.Update(dt);
-
-    //printf("%lf\n", beatTimer.Get());
 
     if(beatTimer.Get() >= beatOffset)
     {
@@ -39,5 +36,10 @@ void BeatManager::Update(float dt)
 bool BeatManager::IsBeat()
 {
     return isBeat;
+}
+
+float BeatManager::GetNextOffset()
+{
+    return beatOffset;
 }
 

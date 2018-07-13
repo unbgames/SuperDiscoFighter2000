@@ -3,7 +3,7 @@
 
 #include "Timer.hpp"
 
-#define BEAT_DELTA_TIME 1.f
+#define BEAT_DELTA_TIME 1.3f
 
 class BeatManager
 {
@@ -21,6 +21,7 @@ class BeatManager
         void Update(float dt);
         bool IsBeat();
         void SetBeatOffset(float beatOffset);
+        float GetNextOffset();
 };
 
 #endif
